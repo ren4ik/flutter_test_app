@@ -1,0 +1,9 @@
+{
+  "name": "Flutter Dev",
+  "image": "cirrusci/flutter:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": ["Dart-Code.flutter"]
+    }
+  }
+}
