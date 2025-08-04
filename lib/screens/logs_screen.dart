@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/log_service.dart';
+import '../services/logger_service.dart';
 
 class LogScreen extends StatelessWidget {
   const LogScreen({super.key});

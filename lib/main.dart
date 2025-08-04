@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/login_screen.dart';
-import 'screens/log_screen.dart'; // <-- Не забудь импортировать
+import 'screens/logs_screen.dart';
 import 'themes/ucell_theme.dart';
 
 void main() {

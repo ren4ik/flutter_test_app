@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../services/log_service.dart';
+import '../services/logs_service.dart';
 import 'verification_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
