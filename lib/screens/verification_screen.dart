@@ -22,7 +22,7 @@ class VerificationScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             final result = await MyIdClient.start(
-              config: MyIdStartConfig(
+              config: MyIdConfig(
                 sessionId: sessionId,
                 clientHash: clientHash,
                 clientHashId: clientHashId,
