@@ -68,9 +68,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Ошибка при логине: ${response.statusCode}\n${response.body}';
+        _error = 'Ошибка при логине: ${e}';
       });
-      LogService.log("Исключение при логине: ${response.statusCode}\n${response.body}");
+      LogService.log("Исключение при логине: ${e}");
     }
   }
 
