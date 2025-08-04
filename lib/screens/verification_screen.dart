@@ -2,32 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:myid/myid.dart';
 
 class VerificationScreen extends StatelessWidget {
-  const VerificationScreen({super.key});
+  final String sessionId;
+  final String clientHash;
+  final String clientHashId;
 
-  void startMyIdFlow(BuildContext context) async {
-    final result = await MyIdClient.start(
-      config: MyIdConfig(
-        sessionId: sessionId,
-        clientHash: clientHash,
-        clientHashId: clientHashId,
-        environment: MyIdEnvironment.TESTING,
-        entryType: MyIdEntryType.IDENTIFICATION,
-      ),
-    iosAppearance: MyIdIOSAppearance(),
-  );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('MyID finished: ${result.status}')),
-    );
-  }
+  const VerificationScreen({
+    super.key,
+    required this.sessionId,
+    required this.clientHash,
+    required this.clientHashId,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verification')),
+      appBar: AppBar(title: const Text('MyID Verification')),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => startMyIdFlow(context),
+          onPressed: () async {
+            final result = await MyIdClient.start(
+              config: MyIdConfig(
+                sessionId: sessionId,
+                clientHash: clientHash,
+                clientHashId: clientHashId,
+                environment: MyIdEnvironment.TESTING,
+                entryType: MyIdEntryType.IDENTIFICATION,
+              ),
+              iosAppearance: MyIdIOSAppearance(),
+            );
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('MyID finished: ${result.resultStatus.name}')),
+            );
+          },
           child: const Text('Start Verification'),
         ),
       ),
