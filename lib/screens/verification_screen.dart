@@ -7,14 +7,14 @@ class VerificationScreen extends StatelessWidget {
   void startMyIdFlow(BuildContext context) async {
     final result = await MyIdClient.start(
       config: MyIdConfig(
-        sessionId: 'demo-session-id',
-        clientHash: 'client-hash',
-        clientHashId: 'client-hash-id',
+        sessionId: sessionId,
+        clientHash: clientHash,
+        clientHashId: clientHashId,
         environment: MyIdEnvironment.TESTING,
         entryType: MyIdEntryType.IDENTIFICATION,
       ),
-      iosAppearance: MyIdIOSAppearance(),
-    );
+    iosAppearance: MyIdIOSAppearance(),
+  );
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('MyID finished: ${result.status}')),
