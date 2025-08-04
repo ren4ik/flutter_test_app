@@ -23,7 +23,7 @@ class VerificationScreen extends StatelessWidget {
           onPressed: () async {
             final result = await MyIdClient.start(
               config: MyIdConfig(
-                sessionId: sessionId,
+                clientId: sessionId,
                 clientHash: clientHash,
                 clientHashId: clientHashId,
                 environment: MyIdEnvironment.PRODUCTION,
