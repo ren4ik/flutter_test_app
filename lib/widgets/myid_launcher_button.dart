@@ -23,7 +23,7 @@ class MyIDLauncherButton extends StatelessWidget {
             clientId: sessionId,
             clientHash: clientHash,
             clientHashId: clientHashId,
-            environment: MyIdEnvironment.TESTPRODUCTIONING,
+            environment: MyIdEnvironment.PRODUCTION,
             entryType: MyIdEntryType.IDENTIFICATION,
           ),
           iosAppearance: MyIdIOSAppearance(),
