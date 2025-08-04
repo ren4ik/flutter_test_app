@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/l10n.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/login_screen.dart';
 import 'themes/ucell_theme.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(); // Загружаем .env
   runApp(const MyApp());
 }
 
@@ -14,14 +14,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Ucell MyID App',
+      title: 'Ucell App',
       theme: UcellTheme.theme,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
+      locale: const Locale('ru'),
+      supportedLocales: const [
+        Locale('ru'),
+        Locale('uz'),
       ],
-      supportedLocales: L10n.all,
       home: const LoginScreen(),
     );
   }

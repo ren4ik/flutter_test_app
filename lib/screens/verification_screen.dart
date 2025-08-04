@@ -13,29 +13,41 @@ class VerificationScreen extends StatelessWidget {
     required this.clientHashId,
   });
 
+  Future<void> _startVerification(BuildContext context) async {
+    try {
+      final result = await MyIdClient.start(
+        config: MyIdConfig(
+          sessionId: sessionId,
+          clientHash: clientHash,
+          clientHashId: clientHashId,
+          environment: MyIdEnvironment.TESTING,
+          entryType: MyIdEntryType.IDENTIFICATION,
+        ),
+        iosAppearance: const MyIdIOSAppearance(), // Можно кастомизировать
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('MyID завершён: ${result.resultStatus.name}'),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Ошибка MyID: $e'),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Verification')),
+      appBar: AppBar(title: const Text('Проверка клиента')),
       body: Center(
         child: ElevatedButton(
-          onPressed: () async {
-            final result = await MyIdClient.start(
-              config: MyIdConfig(
-                sessionId: sessionId,
-                clientHash: clientHash,
-                clientHashId: clientHashId,
-                environment: MyIdEnvironment.TESTING,
-                entryType: MyIdEntryType.IDENTIFICATION,
-              ),
-              iosAppearance: MyIdIOSAppearance(),
-            );
-
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('MyID result: ${result.status.name}')),
-            );
-          },
-          child: const Text('Start MyID Verification'),
+          onPressed: () => _startVerification(context),
+          child: const Text('Запустить MyID'),
         ),
       ),
     );
