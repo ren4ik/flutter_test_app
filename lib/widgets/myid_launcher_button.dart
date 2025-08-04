@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myid/myid.dart';
+import 'package:myid/myid_config.dart';
 
 class MyIDLauncherButton extends StatelessWidget {
   final String sessionId;
@@ -19,17 +20,17 @@ class MyIDLauncherButton extends StatelessWidget {
       onPressed: () async {
         final result = await MyIdClient.start(
           config: MyIdConfig(
-            sessionId: sessionId,
+            clientId: sessionId,
             clientHash: clientHash,
             clientHashId: clientHashId,
-            environment: MyIdEnvironment.TESTING,
+            environment: MyIdEnvironment.TESTPRODUCTIONING,
             entryType: MyIdEntryType.IDENTIFICATION,
           ),
           iosAppearance: MyIdIOSAppearance(),
         );
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('MyID result: ${result.status}')),
+          SnackBar(content: Text('MyID result: ${result}')),
         );
       },
       child: const Text('Start Verification'),
