@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myid/myid.dart';
+import 'package:myid/myid_config.dart';
 
 class VerificationScreen extends StatelessWidget {
   final String sessionId;
@@ -25,16 +26,16 @@ class VerificationScreen extends StatelessWidget {
                 sessionId: sessionId,
                 clientHash: clientHash,
                 clientHashId: clientHashId,
-                environment: MyIdEnvironment.testing,
-                entryType: MyIdEntryType.identification,
+                environment: MyIdEnvironment.PRODUCTION,
+                entryType: MyIdEntryType.IDENTIFICATION,
               ),
-              iosAppearance: const MyIdIOSCustomAppearance(),
+              iosAppearance: const MyIdIOSAppearance(),
             );
 
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  'MyID завершён: ${result.resultStatus.name}',
+                  'MyID завершён: ${result}',
                 ),
               ),
             );
