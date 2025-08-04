@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myid/enums.dart';
 import 'package:myid/myid.dart';
 import 'package:myid/myid_config.dart';
 
