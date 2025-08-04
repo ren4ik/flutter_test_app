@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'screens/login_screen.dart';
+import 'screens/log_screen.dart'; // <-- Не забудь импортировать
 import 'themes/ucell_theme.dart';
 
 void main() {
@@ -26,6 +27,9 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      routes: {
+        '/logs': (_) => const LogScreen(), // <-- Вот здесь добавлен маршрут
+      },
     );
   }
 }

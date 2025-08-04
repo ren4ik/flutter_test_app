@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../services/log_service.dart';
 import 'verification_screen.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -14,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _deviceId = 'flutter-device-id'; // заменить на реальный device_id при необходимости
+  final _deviceId = 'flutter-device-id'; // заменить на реальный device_id
   bool _loading = false;
   String? _error;
 
@@ -25,44 +27,68 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     final url = Uri.parse('https://regblanc.ucell.uz/api/v1/dealer/auth/login');
-    final response = await http.post(
-      url,
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'login': _loginController.text,
-        'password': _passwordController.text,
-        'device_id': _deviceId,
-      }),
-    );
-
-    setState(() => _loading = false);
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final token = data['token'];
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => VerificationScreen(
-            sessionId: dotenv.env['SESSION_ID'] ?? '',
-            clientHash: dotenv.env['CLIENT_HASH'] ?? '',
-            clientHashId: dotenv.env['CLIENT_HASH_ID'] ?? '',
-          ),
-        ),
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'login': _loginController.text,
+          'password': _passwordController.text,
+          'device_id': _deviceId,
+        }),
       );
-    } else {
-      setState(() => _error = 'Ошибка входа: ${response.statusCode}');
+
+      LogService.log("Запрос на вход: ${_loginController.text}");
+      LogService.log("Ответ от сервера: ${response.body}");
+
+      setState(() => _loading = false);
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+        LogService.log("Успешный вход. Токен: $token");
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => VerificationScreen(
+              sessionId: dotenv.env['SESSION_ID'] ?? '',
+              clientHash: dotenv.env['CLIENT_HASH'] ?? '',
+              clientHashId: dotenv.env['CLIENT_HASH_ID'] ?? '',
+            ),
+          ),
+        );
+      } else {
+        setState(() => _error = 'Ошибка входа: ${response.statusCode}');
+        LogService.log("Ошибка входа. Код: ${response.statusCode}");
+      }
+    } catch (e) {
+      setState(() {
+        _loading = false;
+        _error = 'Ошибка при логине';
+      });
+      LogService.log("Исключение при логине: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Вход в систему")),
+      appBar: AppBar(
+        title: const Text("Вход в систему"),
+        actions: [
+          if (kDebugMode)
+            IconButton(
+              icon: const Icon(Icons.bug_report),
+              onPressed: () {
+                Navigator.pushNamed(context, '/logs');
+              },
+            ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
