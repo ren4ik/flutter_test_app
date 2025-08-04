@@ -16,7 +16,7 @@ class VerificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('MyID Verification')),
+      appBar: AppBar(title: const Text('Verification')),
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
@@ -32,10 +32,10 @@ class VerificationScreen extends StatelessWidget {
             );
 
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('MyID finished: ${result.resultStatus.name}')),
+              SnackBar(content: Text('MyID result: ${result.status.name}')),
             );
           },
-          child: const Text('Start Verification'),
+          child: const Text('Start MyID Verification'),
         ),
       ),
     );
